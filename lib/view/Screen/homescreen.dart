@@ -16,6 +16,46 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  List<ShoeModel> filteredShoes = [];
+
+  Future<void> loadShoes() async {
+    try {
+      final data = await ShoeService.fetchShoes();
+      setState(() {
+        _shoes = data;
+        filteredShoes = data; // ✅ show all data initially
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching shoes: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void _filterShoes(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredShoes = _shoes; // ✅ show all when input is empty
+      });
+      return;
+    }
+
+    final results =
+        _shoes.where((shoe) {
+          final nameLower = shoe.name.toLowerCase();
+          final tagLower = shoe.tag.toLowerCase();
+          final input = query.toLowerCase();
+          return nameLower.contains(input) || tagLower.contains(input);
+        }).toList();
+
+    setState(() {
+      filteredShoes = results;
+    });
+  }
+
   // int selectedIndexOfCategory = 0;
   final ScrollController _scrollController = ScrollController();
   int selectedIndexOfCategory = 0;
@@ -30,24 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
     loadShoes(); // ✅ fetch shoes from API
   }
 
-  Future<void> loadShoes() async {
-    try {
-      final data = await ShoeService.fetchShoes();
-      setState(() {
-        _shoes = data;
-        isLoading = false;
-      });
-    } catch (e) {
-      print("Error fetching shoes: $e");
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -116,6 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 320,
                       height: 50,
                       child: TextField(
+                        controller: _searchController,
+                        onChanged: _filterShoes, //
                         decoration: InputDecoration(
                           hintText: ' Enter for Search',
                           hintStyle: GoogleFonts.getFont(
@@ -217,10 +245,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? Center(child: CircularProgressIndicator())
                         : ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: _shoes.length, //* fetch api data
+                          itemCount: filteredShoes.length, //* fetch api data
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
-                            ShoeModel model = _shoes[index];
+                            ShoeModel model = filteredShoes[index];
                             return GestureDetector(
                               onTap: () {
                                 // we will navigaete to details screen of the item
