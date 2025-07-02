@@ -55,7 +55,13 @@ class _DetailViewState extends State<DetailView> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const CustomDetailsViewAppBar(),
+      appBar: CustomDetailsViewAppBar(
+        shoeModel: shoeModel,
+        onFavToggle: () {
+          setState(() {}); // Refresh UI on favorite toggle
+        },
+      ),
+
       body: Stack(
         children: [
           Column(

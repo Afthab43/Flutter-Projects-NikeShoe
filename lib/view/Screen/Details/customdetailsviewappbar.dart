@@ -1,10 +1,19 @@
+import 'package:brand_app/model/shoe.model.dart';
+import 'package:brand_app/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomDetailsViewAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  const CustomDetailsViewAppBar({super.key});
+  final ShoeModel shoeModel;
+  final VoidCallback onFavToggle;
+
+  const CustomDetailsViewAppBar({
+    super.key,
+    required this.shoeModel,
+    required this.onFavToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +22,7 @@ class CustomDetailsViewAppBar extends StatelessWidget
         'Logo',
         style: GoogleFonts.getFont(
           'Poppins',
-          color: Color(0XFF0D120E),
+          color: const Color(0XFF0D120E),
           letterSpacing: 0.2,
           fontSize: 35,
           fontWeight: FontWeight.w700,
@@ -28,6 +37,7 @@ class CustomDetailsViewAppBar extends StatelessWidget
       ),
       actions: [
         Container(
+          margin: const EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -36,14 +46,20 @@ class CustomDetailsViewAppBar extends StatelessWidget
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: const Offset(0, 2), // changes position of shadow
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: IconButton(
-            icon: const Icon(CupertinoIcons.heart),
+            icon: Icon(
+              AppMethods.isFavorite(shoeModel)
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              color: Colors.red,
+            ),
             onPressed: () {
-              // Add favorite functionality here
+              AppMethods.toggleFavorite(shoeModel, context);
+              onFavToggle(); // Tell DetailView to rebuild
             },
           ),
         ),

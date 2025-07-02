@@ -59,7 +59,16 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(
+          'Search',
+          style: GoogleFonts.getFont(
+            'Poppins',
+            fontSize: 30,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Padding(
@@ -67,12 +76,25 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextField(
               onChanged: _filterShoes,
               decoration: InputDecoration(
-                hintText: 'Search shoes...',
-                prefixIcon: Icon(Icons.search),
+                hintText: ' Enter for Search',
+                hintStyle: GoogleFonts.getFont(
+                  'Poppins',
+                  color: const Color.fromARGB(255, 141, 138, 138),
+                  fontSize: 14,
+                ),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    'assets/icons/search.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
                 ),
-                fillColor: Colors.grey.shade200,
+                fillColor: Color.fromARGB(255, 235, 233, 233),
                 filled: true,
               ),
             ),

@@ -2,6 +2,7 @@
 import 'package:brand_app/data/dummy.dart';
 import 'package:brand_app/model/models.dart';
 import 'package:brand_app/services/shoe_service.dart';
+import 'package:brand_app/utils/app_methods.dart';
 import 'package:brand_app/view/Screen/Details/detailscreen.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:brand_app/model/shoe.model.dart';
@@ -243,6 +244,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child:
                     isLoading
                         ? Center(child: CircularProgressIndicator())
+                        : filteredShoes.isEmpty
+                        ? Center(
+                          child: Text(
+                            'No products found',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
                         : ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: filteredShoes.length, //* fetch api data
@@ -405,17 +417,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 25,
-                                    left: 25,
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        CupertinoIcons.heart,
-                                        color: Colors.grey,
-                                        size: 30,
-                                      ),
-                                      onPressed: () {
-                                        // TODO: Handle like/favorite action
+                                    top: 20,
+                                    right: 20,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        AppMethods.toggleFavorite(
+                                          model,
+                                          context,
+                                        );
+                                        setState(() {}); // Update UI
                                       },
+                                      child: Icon(
+                                        AppMethods.isFavorite(model)
+                                            ? CupertinoIcons.heart_fill
+                                            : CupertinoIcons.heart,
+                                        color: Colors.red,
+                                        size: 28,
+                                      ),
                                     ),
                                   ),
                                 ],

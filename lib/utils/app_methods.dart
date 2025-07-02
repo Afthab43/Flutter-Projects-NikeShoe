@@ -33,5 +33,25 @@ class AppMethods {
     }
     return totalAmount;
   }
-  
+
+  //Add to favorite function
+  static List<ShoeModel> favoritesList = [];
+
+  static void toggleFavorite(ShoeModel model, BuildContext context) {
+    if (favoritesList.contains(model)) {
+      favoritesList.remove(model);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("${model.name} removed from favorites")),
+      );
+    } else {
+      favoritesList.add(model);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("${model.name} added to favorites")),
+      );
+    }
+  }
+
+  static bool isFavorite(ShoeModel model) {
+    return favoritesList.contains(model);
+  }
 }
