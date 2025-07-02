@@ -417,8 +417,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 20,
-                                    right: 20,
+                                    top: 30,
+                                    left: 30,
                                     child: GestureDetector(
                                       onTap: () {
                                         AppMethods.toggleFavorite(
