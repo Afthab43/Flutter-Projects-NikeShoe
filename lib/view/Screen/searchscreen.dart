@@ -107,10 +107,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ? Center(
                       child: Text(
                         'No products found.',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                     )
                     : ListView.builder(

@@ -53,8 +53,8 @@ class CustomDetailsViewAppBar extends StatelessWidget
           child: IconButton(
             icon: Icon(
               AppMethods.isFavorite(shoeModel)
-                  ? Icons.favorite
-                  : Icons.favorite_border,
+                  ? CupertinoIcons.heart_fill
+                  : CupertinoIcons.heart,
               color: Colors.red,
             ),
             onPressed: () {

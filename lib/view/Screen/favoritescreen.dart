@@ -1,5 +1,6 @@
-import 'package:brand_app/model/models.dart';
+// import 'package:brand_app/model/models.dart';
 import 'package:brand_app/utils/app_methods.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,7 +29,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       body:
           favorites.isEmpty
-              ? const Center(child: Text("No favorites yet."))
+              ? const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No Favorities added',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    Text('Once you have added come back !! '),
+                  ],
+                ),
+              )
               : ListView.builder(
                 itemCount: favorites.length,
                 itemBuilder: (context, index) {
@@ -38,7 +50,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     title: Text(item.name),
                     subtitle: Text('\$${item.price.toString()}'),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
+                      icon: Icon(CupertinoIcons.delete, color: Colors.red),
                       onPressed: () {
                         setState(() {
                           AppMethods.toggleFavorite(item, context);
